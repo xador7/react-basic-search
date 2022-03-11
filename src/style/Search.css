@@ -1,19 +1,23 @@
 .container{
-    margin: 0 auto;
+    margin: 100px auto;
     width: 50% !important;
 }
 .searchList{
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: auto;
     font-size: 20px;
-    /*border: 1px solid gray;*/
     color: black;
 }
 .searchList a{
+    font-family: Work Sans, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
     text-decoration: none;
 }
 .searchEntry{
     color: #57952c !important;
+    padding: 2px;
+    /*background:  #400ccc;*/
 }
 .searchBar{
 

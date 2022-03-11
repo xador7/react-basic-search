@@ -1,12 +1,26 @@
-import React from 'react';
-import Search from "./components/Search";
+import React, { useState, useEffect, ReactElement, FC} from 'react';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
-function App() {
+import Navigation from "./components/Navigation";
+import Search from "./components/Search";
+import NewUser from "./components/NewUser";
+import UserDetails from "./components/UserDetails";
+
+export interface IAppProps {}
+
+const App: FC<IAppProps> = (props): ReactElement => {
   return (
-    <div>
-      <Search />
-    </div>
+      <Router>
+        <Navigation />
+        <Routes>
+            <Route path="/new-user" element={ <NewUser /> } />
+            <Route path="/search" element={ <Search /> } />
+            <Route path="/details" />
+              <Route index element={ <UserDetails /> } />
+              <Route path=":id" element={ <UserDetails /> } />
+        </Routes>
+      </Router>
   );
-}
+};
 
 export default App;
