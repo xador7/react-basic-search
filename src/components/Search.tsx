@@ -10,7 +10,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PreviewIcon from '@mui/icons-material/Preview';
 import Button from '@mui/material/Button';
@@ -25,6 +24,7 @@ import {
     deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
+
 import '../style/Search.css'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -76,22 +76,6 @@ const Search: FC<{}> = (): ReactElement => {
         });
         return () => unsub();
     }, [value]);
-
-    // const update =  async (id: any) => {
-    //
-    //     const taskDocRef = doc(db, 'users', id);
-    //     console.log('taskDocRef', taskDocRef);
-    //     try{
-    //         await updateDoc(taskDocRef, {
-    //             formData: {
-    //                 lastName: 'vvvvvv',
-    //                 firsName: 'vvvvv'
-    //             }
-    //         })
-    //     } catch (err) {
-    //         alert(err)
-    //     }
-    // };
 
     const deleteItem =  async (id: any) => {
         const taskDocRef = doc(db, 'users', id);

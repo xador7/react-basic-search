@@ -10,6 +10,8 @@ import Container from '@mui/material/Container';
 import { db } from '../firebase'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
 
+import { IUserData } from '../models/User'
+
 export interface INewUserProps {}
 
 const ValidationTextField = styled(TextField)({
@@ -27,18 +29,8 @@ const ValidationTextField = styled(TextField)({
     },
 });
 
-export interface IFormData {
-    firstName: string;
-    lastName: string;
-    email: string;
-    age: number;
-    city: string;
-    zip: string;
-    address: string;
-}
-
-const NewUser: FC<INewUserProps> = (props): ReactElement => {
-    const [formData, setFormData] = useState<IFormData>({
+const NewUser: FC<INewUserProps> = (): ReactElement => {
+    const [formData, setFormData] = useState<IUserData>({
         address: "",
         city: "",
         zip: "",
@@ -110,7 +102,6 @@ const NewUser: FC<INewUserProps> = (props): ReactElement => {
                     gridTemplateColumns: { sm: '1fr' },
                     gap: 1,
                     margin: '0 auto',
-                    // marginTop: '100px',
                     maxWidth: '400px'
                 }}
             >
@@ -133,7 +124,6 @@ const NewUser: FC<INewUserProps> = (props): ReactElement => {
                     gridTemplateColumns: { sm: '1fr 1fr' },
                     gap: 1,
                     margin: '0 auto',
-                    // paddingTop: '100px',
                     maxWidth: '400px'
                 }}
             >
@@ -166,7 +156,6 @@ const NewUser: FC<INewUserProps> = (props): ReactElement => {
                     gridTemplateColumns: { sm: '1fr' },
                     gap: 1,
                     margin: '0 auto',
-                    // marginTop: '100px',
                     maxWidth: '400px'
                 }}
             >
@@ -188,7 +177,6 @@ const NewUser: FC<INewUserProps> = (props): ReactElement => {
                     gridTemplateColumns: { sm: '1fr 1fr' },
                     gap: 1,
                     margin: '0 auto',
-                    // marginTop: '100px',
                     maxWidth: '400px'
                 }}
             >
