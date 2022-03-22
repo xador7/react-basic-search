@@ -37,13 +37,13 @@ const Navigation: FC<INavigationProps> = (): ReactElement => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <div className={ classes.root }>
             <AppBar position="static">
                 <Toolbar className={ classes.toolbar }>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <IconButton edge="start" className={ classes.menuButton } color="inherit" aria-label="menu">
                         {/*<MenuIcon />*/}
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography variant="h6" className={ classes.title }>
                         <RouterLink  to="/search" className={ classes.link }>
                             <Button color="inherit">Search</Button>
                         </RouterLink>

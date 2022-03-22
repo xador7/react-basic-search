@@ -14,6 +14,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PreviewIcon from '@mui/icons-material/Preview';
 import Button from '@mui/material/Button';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { useConfirm } from "material-ui-confirm";
 
 import {
     collection,
@@ -41,7 +42,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
@@ -51,6 +51,7 @@ const Search: FC<{}> = (): ReactElement => {
 
     const [value, setValue] = useState<string>('');
     const [result, setResult] = useState<any>([]);
+    const confirm = useConfirm();
 
     useEffect(() => {
         const q = query(collection(db, "users"));
@@ -77,13 +78,20 @@ const Search: FC<{}> = (): ReactElement => {
         return () => unsub();
     }, [value]);
 
-    const deleteItem =  async (id: any) => {
+    const deleteItem =  async (id: string) => {
         const taskDocRef = doc(db, 'users', id);
         try{
             await deleteDoc(taskDocRef)
         } catch (err) {
             alert(err)
         }
+    };
+
+    const handleDelete = (id: string) => {
+        console.log('Item ID ------------->', id);
+        confirm({title: 'Delete!', description: `Are you sure you want to delete this user?` })
+            .then(() => deleteItem(id))
+            .catch(() => console.log("Deletion cancelled."));
     };
 
     return (
@@ -103,7 +111,7 @@ const Search: FC<{}> = (): ReactElement => {
                     ),
                 }}
             />
-            <TableContainer component={Paper} className="customized-table-container">
+            <TableContainer component={ Paper } className="customized-table-container">
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -118,7 +126,7 @@ const Search: FC<{}> = (): ReactElement => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {result.map((item: any, index: any) => (
+                        { result.map( (item: any, index: any) => (
                             <StyledTableRow key={ index + 1 }>
                                 <StyledTableCell component="th" scope="row" className="first-col">
                                     { index + 1 + '.' }
@@ -130,16 +138,16 @@ const Search: FC<{}> = (): ReactElement => {
                                 <StyledTableCell align="right">{item.formData.address}</StyledTableCell>
                                 <StyledTableCell align="right">{item.formData.age}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    {/*<Button href={`/details/:${item.id}`} variant="outlined" startIcon={<PreviewIcon />}>*/}
+                                    {/*<Button href={`/details/${item.id}`} variant="outlined" startIcon={<PreviewIcon />}>*/}
                                     {/*    View*/}
                                     {/*</Button>*/}
-                                    {/*<Button variant="outlined" color="secondary" startIcon={<DeleteForeverIcon />}>*/}
+                                    {/*<Button onClick={() => handleDelete(item.id)} variant="outlined" color="secondary" startIcon={<DeleteForeverIcon />}>*/}
                                     {/*    Delete*/}
                                     {/*</Button>*/}
-                                    <IconButton href={`/details/${item.id}`} color="primary" aria-label="view">
+                                    <IconButton href={ `/details/${item.id}` } color="primary" aria-label="view">
                                         <PreviewIcon fontSize="inherit" />
                                     </IconButton>
-                                    <IconButton onClick={() => deleteItem(item.id)} color="secondary" aria-label="delete">
+                                    <IconButton onClick={ () => handleDelete(item.id) } color="secondary" aria-label="delete">
                                         <DeleteForeverIcon fontSize="inherit" />
                                     </IconButton>
                                 </StyledTableCell>
