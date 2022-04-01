@@ -1,4 +1,5 @@
 import React, { useState, ReactElement, FC } from "react";
+import { useNavigate } from 'react-router-dom';
 
 import { alpha, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -40,6 +41,8 @@ const NewUser: FC<INewUserProps> = (): ReactElement => {
         email: ""
     });
 
+    const navigate = useNavigate();
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -51,7 +54,16 @@ const NewUser: FC<INewUserProps> = (): ReactElement => {
 
         try {
             await addDoc(collection(db, 'users'), { formData });
-
+            setFormData({
+                address: "",
+                city: "",
+                zip: "",
+                age: 0,
+                firstName: "",
+                lastName: "",
+                email: ""
+            });
+            navigate('/search');
         } catch (err) {
             console.log(err);
         }

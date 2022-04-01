@@ -1,4 +1,5 @@
 import { useState, useEffect, ReactElement, FC } from "react";
+import { useAction, useTypedSelector } from "../redux/hooks";
 
 import { TextField, IconButton } from '@material-ui/core';
 import { SearchOutlined } from '@material-ui/icons';
@@ -49,42 +50,55 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Search: FC<{}> = (): ReactElement => {
 
+     const { users, error, loading } = useTypedSelector(state => state.users );
+
+    const { fetchUsers } = useAction();
+    const { deleteUsers } = useAction();
+    const { searchUsers } = useAction();
+
     const [value, setValue] = useState<string>('');
-    const [result, setResult] = useState<any>([]);
+    // const [result, setResult] = useState<string[]>([]);
     const confirm = useConfirm();
 
     useEffect(() => {
-        const q = query(collection(db, "users"));
-        const unsub = onSnapshot(q, (querySnapshot) => {
-            let tasksArray: any = [];
-            querySnapshot.forEach((doc) => {
-                tasksArray.push({ ...doc.data(), id: doc.id });
-            });
-            setResult([]);
-            let searchQuery = value.toLocaleLowerCase();
-            console.log('searchQuery', searchQuery);
-            console.log('tasksArray', tasksArray);
-            for(const key in tasksArray){
-                let person = tasksArray[key].formData.firstName.toLowerCase() +" "+ tasksArray[key].formData.lastName.toLowerCase();
-                console.log('person',person);
-                if(person.slice(0, searchQuery.length).indexOf(searchQuery) !== -1){
-                    setResult( (prevResult: any) => {
-                        return [...prevResult, tasksArray[key]];
-                    });
-                }
-            }
-            console.log('tasksArray', tasksArray);
-        });
-        return () => unsub();
+        //fetchUsers();
+    }, []);
+
+    useEffect(() => {
+
+        fetchUsers();
+        console.log('users ------------> ', users);
+        console.log('error ------------> ', error);
+        console.log('loading ------------> ', loading);
+
+        searchUsers(users, value.toLocaleLowerCase());
+
+        // setResult([]);
+        // let searchQuery: string = value.toLocaleLowerCase();
+        // console.log('searchQuery', searchQuery);
+        // console.log('users in useEffect', users);
+        // for( const key in users ){
+        //     let person = users[key].formData.firstName.toLowerCase() +" "+ users[key].formData.lastName.toLowerCase();
+        //     console.log('person',person);
+        //     if(person.slice(0, searchQuery.length).indexOf(searchQuery) !== -1){
+        //         setResult( (prevResult: any) => {
+        //             return [...prevResult, users[key]];
+        //         });
+        //     }
+        // }
     }, [value]);
 
-    const deleteItem =  async (id: string) => {
-        const taskDocRef = doc(db, 'users', id);
-        try{
-            await deleteDoc(taskDocRef)
-        } catch (err) {
-            alert(err)
-        }
+    const deleteItem = (id: string) => {
+        deleteUsers( id );
+
+        // const taskDocRef = doc(db, 'users', id);
+        // try{
+        //     await deleteDoc(taskDocRef)
+        // } catch (err) {
+        //     alert(err)
+        // }
+        // setResult([]);
+        // setResult( users );
     };
 
     const handleDelete = (id: string) => {
@@ -93,6 +107,13 @@ const Search: FC<{}> = (): ReactElement => {
             .then(() => deleteItem(id))
             .catch(() => console.log("Deletion cancelled."));
     };
+
+    if(loading){
+        return  <h1>Loading.....</h1>
+    }
+    if( error ){
+        return <h1>{ error }</h1>
+    }
 
     return (
         <div className='container'>
@@ -126,7 +147,7 @@ const Search: FC<{}> = (): ReactElement => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        { result.map( (item: any, index: any) => (
+                        { users.map( (item: any, index: any) => (
                             <StyledTableRow key={ index + 1 }>
                                 <StyledTableCell component="th" scope="row" className="first-col">
                                     { index + 1 + '.' }
