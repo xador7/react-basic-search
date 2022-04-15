@@ -20,7 +20,10 @@
     /*background:  #400ccc;*/
 }
 .searchBar{
-
+    margin-bottom: 50px !important;
+}
+.user-mat-table{
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
 /*-============== Table ===========-*/
 .customized-table-container{

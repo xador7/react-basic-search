@@ -21,8 +21,6 @@ export const userReducer = (state = initialState, action: UserAction): UserState
             // return { loading: false, error: null, users: state.users.filter(item => item.id !== action.payload) };
         case UserActionType.DELETE_USERS_ERROR:
             return { loading: false, error: action.payload, users: [] };
-        case UserActionType.SEARCH_USERS:
-            return { loading: false, error: null, users: action.payload };
         default:
             return state
     }

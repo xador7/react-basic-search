@@ -38,14 +38,5 @@ interface DeleteUserErrorAction {
     payload: string;
 }
 
-interface SearchUserAction {
-    type: UserActionType.SEARCH_USERS
-    payload: any[];
-}
-// interface SearchUserSuccessAction {
-//     type: UserActionType.SEARCH_USERS_SUCCESS;
-//     payload: string;
-// }
-
 export type UserAction = FetchUserAction | FetchUserSuccessAction | FetchUserErrorAction | DeleteUserAction |
-    DeleteUserSuccessAction | DeleteUserErrorAction | SearchUserAction;
+    DeleteUserSuccessAction | DeleteUserErrorAction ;
